@@ -1,0 +1,42 @@
+---
+description: Dual-Track TDD and pytest AAA testing requirements
+alwaysApply: true
+---
+
+# TDD and Testing Rule
+
+## RED Phase
+- Description: write a failing test that captures the requirement.
+- Rules:
+  - Create test before implementation.
+  - Execute test and confirm failure for the right reason.
+- Must not:
+  - Write production code before confirmed RED.
+  - Weaken assertions to force RED/GREEN transitions.
+
+## GREEN Phase
+- Description: implement the minimum code to pass.
+- Rules:
+  - Make only the smallest change required for passing tests.
+  - Re-run affected tests and full suite as needed.
+- Must not:
+  - Refactor in this phase.
+  - Add speculative abstractions or optimization.
+
+## REFACTOR Phase
+- Description: improve structure without behavior change.
+- Rules:
+  - Preserve externally observable behavior.
+  - Keep tests passing and preserve coverage target.
+- Must not:
+  - Introduce feature changes disguised as refactor.
+  - Reduce effective test confidence.
+
+## Test Conventions
+- Framework: `pytest`
+- Pattern: AAA (`Arrange-Act-Assert`)
+- Minimum coverage target: `80%`
+- Naming: test functions start with `test_`
+- Fixture scope:
+  - default `function` for unit tests
+  - broader scopes only when justified for integration tests
