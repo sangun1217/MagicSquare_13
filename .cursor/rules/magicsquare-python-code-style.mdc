@@ -1,0 +1,22 @@
+---
+description: Python code style and typing rules for MagicSquare
+globs: "**/*.py"
+alwaysApply: false
+---
+
+# Python Code Style
+
+## Runtime
+- Use Python `3.10+` compatible syntax and stdlib usage.
+
+## Style
+- Follow PEP8 strictly.
+- Keep max line length at `88` (Black-compatible).
+
+## Typing
+- Every function must include parameter and return type hints.
+- Avoid untyped public APIs.
+
+## Docstrings
+- Use Google-style docstrings.
+- Require docstrings for all public methods/functions/classes.

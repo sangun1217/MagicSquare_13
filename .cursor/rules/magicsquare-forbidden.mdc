@@ -1,0 +1,23 @@
+---
+description: Forbidden coding patterns and required alternatives
+alwaysApply: true
+---
+
+# Forbidden Patterns
+
+## Rule Set
+- pattern: `print()`
+  - reason: pollutes runtime output and weakens observability discipline
+  - alternative: use `logging` with explicit log levels
+- pattern: hard-coded constants in logic
+  - reason: increases change risk and obscures intent
+  - alternative: extract named constants/configuration
+- pattern: bare `except:`
+  - reason: hides root causes and catches critical exceptions unintentionally
+  - alternative: catch specific exception types, then re-raise when appropriate
+- pattern: implementation before RED confirmation
+  - reason: breaks TDD gate and increases regression risk
+  - alternative: fail-first test, then minimal implementation
+- pattern: test weakening to pass
+  - reason: undermines trust in test suite
+  - alternative: keep meaningful assertions and fix production behavior
