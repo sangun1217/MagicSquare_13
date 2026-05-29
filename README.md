@@ -117,8 +117,8 @@ MagicSquare_xx/
 |------|------|
 | 문제 정의 (STEP 1~5) | 완료 |
 | PRD·TDD 설계·Cursor Rules | 완료 |
-| Dual-Track TDD 구현 | **진행 중** (`feature/dual-track-tdd`) |
-| 실행 방법 | `pyproject.toml` 설정 후 `pytest` (예정) |
+| Dual-Track TDD 구현 | **진행 중** (`feature/dual-track-tdd`) — Sprint 0 완료 |
+| 실행 방법 | `pip install -e ".[dev]"` 후 `pytest` |
 
 ---
 
@@ -133,12 +133,12 @@ MagicSquare_xx/
 
 ### Sprint 0 — 프로젝트 골격
 
-- [ ] `pyproject.toml` 생성 (pytest, pytest-cov, ruff/black)
-- [ ] ECB 디렉터리 스켈레톤 (`src/boundary/`, `src/control/`, `src/entity/`)
-- [ ] 테스트 디렉터리 분리 (`tests/boundary/`, `tests/domain/`, `tests/integration/`)
-- [ ] Golden fixture 상수 정의 (PRD §16.4, Report/02 부록 B)
-- [ ] `TD-SUCCESS-REV-001` 수치 확정 (PRD DN-04)
-- [ ] `ResultFormatter` Layer 결론 (PRD DN-05)
+- [x] `pyproject.toml` 생성 (pytest, pytest-cov, ruff/black)
+- [x] ECB 디렉터리 스켈레톤 (`src/boundary/`, `src/control/`, `src/entity/`)
+- [x] 테스트 디렉터리 분리 (`tests/boundary/`, `tests/domain/`, `tests/integration/`)
+- [x] Golden fixture 상수 정의 (PRD §16.4, Report/02 부록 B)
+- [x] `TD-SUCCESS-REV-001` 수치 확정 (PRD DN-04) — blanks `(2,2)/(3,3)` 1-index, expected `[2,2,10,3,3,7]`
+- [x] `ResultFormatter` Layer 결론 (PRD DN-05) — **Boundary** (format-only assembly)
 
 ### Phase 1 — Dual-Track RED (테스트만, 실패 확인)
 
