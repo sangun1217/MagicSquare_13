@@ -1,0 +1,20 @@
+---
+description: MagicSquare project guardrails and priorities
+alwaysApply: true
+---
+
+# MagicSquare Project Rule
+
+## Scope
+- This project targets Python `3.10+`.
+- Domain focus is magic square generation and validation.
+
+## Quality Priorities
+- Correctness over premature optimization.
+- Tests-first delivery with explicit RED -> GREEN -> REFACTOR flow.
+- Maintainability via clear ECB layer boundaries.
+
+## Non-Negotiables
+- Do not weaken tests to pass CI.
+- Do not bypass TDD gates.
+- Preserve behavior when refactoring.

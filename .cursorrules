@@ -1,0 +1,140 @@
+################################################################################
+project:
+  name: MagicSquare
+  language: Python
+  python_version: "3.10+"
+  goal: "정확하고 검증 가능한 매직스퀘어 생성/검증 로직 구현"
+
+################################################################################
+code_style:
+  python_version: "3.10+"
+  style_guide: "PEP8 엄격 준수"
+  type_hints: "모든 함수 파라미터와 반환값에 필수"
+  docstring: "Google 스타일, 모든 public 메서드에 필수"
+  max_line_length: 88
+
+################################################################################
+architecture:
+  pattern: "ECB"
+  layers:
+    boundary:
+      responsibility: "외부 입출력 담당 (UI, API, CLI)"
+      must_not:
+        - "핵심 비즈니스 로직 구현"
+        - "entity 내부 규칙 직접 수정"
+    control:
+      responsibility: "비즈니스 로직 담당"
+      must_not:
+        - "UI/API/CLI 입출력 세부 구현"
+        - "도메인 규칙을 boundary로 위임"
+    entity:
+      responsibility: "도메인 데이터 및 규칙 담당"
+      must_not:
+        - "외부 입출력 의존"
+        - "프레임워크/런타임 세부사항 의존"
+  dependency_direction:
+    allowed:
+      - "boundary -> control"
+      - "control -> entity"
+    forbidden:
+      - "entity -> control"
+      - "entity -> boundary"
+      - "control -> boundary"
+
+################################################################################
+tdd_rules:
+  red_phase:
+    description: "요구사항을 검증하는 테스트를 먼저 작성하고 실패를 확인하는 단계"
+    rules:
+      - "기능 구현 전에 테스트를 작성한다."
+      - "테스트가 실패하는 것을 실행으로 확인한다."
+      - "실패 원인이 요구사항 미구현임을 확인한다."
+    must_not:
+      - "테스트 실패 확인 전에 프로덕션 코드를 작성하지 않는다."
+      - "실패를 숨기기 위해 assert를 약화하지 않는다."
+  green_phase:
+    description: "RED 테스트를 통과시키기 위한 최소 구현 단계"
+    rules:
+      - "테스트를 통과시키는 최소 코드만 작성한다."
+      - "새 기능 확장보다 현재 실패 테스트 통과에 집중한다."
+      - "기존 테스트 전체가 통과하는지 확인한다."
+    must_not:
+      - "이 단계에서는 리팩터링을 수행하지 않는다."
+      - "불필요한 추상화/일반화/최적화를 추가하지 않는다."
+  refactor_phase:
+    description: "동작 보존을 유지하면서 구조를 개선하는 단계"
+    rules:
+      - "기능 변경 없이 가독성과 설계를 개선한다."
+      - "중복 제거와 책임 분리를 우선 적용한다."
+      - "리팩터링 후 테스트 및 커버리지 기준을 유지한다."
+    must_not:
+      - "공개 인터페이스/기능 결과를 변경하지 않는다."
+      - "커버리지를 낮추는 변경을 하지 않는다."
+
+################################################################################
+testing:
+  framework: "pytest"
+  pattern: "AAA (Arrange-Act-Assert)"
+  coverage_minimum: "80%"
+  fixture_scope:
+    default: "function"
+    rules:
+      - "unit 테스트는 function scope fixture를 기본으로 사용한다."
+      - "integration 테스트는 필요 시 module 또는 session scope를 허용한다."
+      - "mutable fixture는 공유하지 않고 테스트 간 독립성을 유지한다."
+  naming_convention: "test_ 접두사 필수"
+
+################################################################################
+forbidden:
+  - pattern: "print()"
+    reason: "디버깅 출력이 프로덕션 코드 오염과 로그 일관성 저하를 유발한다."
+    alternative: "logging 모듈을 사용하고 레벨(DEBUG/INFO)을 명시한다."
+  - pattern: "하드코딩 상수"
+    reason: "의도 파악이 어려워지고 변경 비용 및 결함 가능성이 증가한다."
+    alternative: "상수 모듈 또는 설정 객체로 분리하고 의미 있는 이름을 부여한다."
+  - pattern: "except:"
+    reason: "예외 원인을 숨겨 디버깅과 복구 전략을 어렵게 만든다."
+    alternative: "구체 예외 타입을 명시하고 필요한 경우 재던지기(raise)한다."
+  - pattern: "RED 단계 없이 구현 코드 작성"
+    reason: "Dual-Track TDD 흐름이 깨져 회귀 결함 위험이 증가한다."
+    alternative: "실패 테스트를 먼저 작성하고 실행 결과를 확인한 뒤 구현한다."
+  - pattern: "테스트 약화"
+    reason: "테스트 신뢰도를 낮춰 품질 기준을 훼손한다."
+    alternative: "의미 있는 assert를 유지하고 필요한 경우 테스트를 보강한다."
+
+################################################################################
+file_structure:
+  # MagicSquare ECB 폴더 구조 (예시)
+  # src/
+  #   boundary/
+  #     cli/
+  #     api/
+  #   control/
+  #   entity/
+  # tests/
+  #   unit/
+  #   integration/
+  src:
+    boundary: "src/boundary/"
+    control: "src/control/"
+    entity: "src/entity/"
+  tests: "tests/"
+  conventions:
+    - "ECB 경계를 넘는 import를 금지한다."
+    - "tests는 src 구조를 반영해 대응 배치한다."
+
+################################################################################
+ai_behavior:
+  before_coding:
+    - "코드 작성 전 관련 테스트 파일을 확인한다."
+    - "요구사항에 대응하는 RED 테스트 존재 여부를 확인한다."
+  during_coding:
+    - "ECB 레이어 경계를 위반하는 코드를 생성하지 않는다."
+    - "타입힌트 없는 함수를 생성하지 않는다."
+    - "GREEN 단계에서는 최소 구현만 작성한다."
+  after_coding:
+    - "pytest 실행으로 테스트 통과 여부를 확인한다."
+    - "커버리지가 최소 기준(80%)을 만족하는지 확인한다."
+    - "리팩터링 시 동작 변경이 없는지 검증한다."
+  on_violation:
+    - "tdd_rules 위반이 감지되면 즉시 경고를 출력하고 작업을 중단한다."
