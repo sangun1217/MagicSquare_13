@@ -180,19 +180,20 @@ MagicSquare_xx/
 - [ ] `ResultFormatter` — `int[6]` 출력 조립 (FR-05)
 - [ ] Track A RED 테스트 전부 통과
 
-#### Track B GREEN (`stabilize/green` — 커밋 4개 · PR 4개)
+#### Track B GREEN (`stabilize/green` — 커밋 4개 · PR 1개)
 
-브랜치 전략: `feat/dom/green-*` → PR → `stabilize/green` → (완료 후) `develop`
+브랜치 전략: `feat/dom/green-d-loc-01` (단일 PR) → `stabilize/green` → (완료 후) `develop`  
+커밋을 4개로 나누고, PR Description은 4커밋 완료 후 일괄 작성.
 
-| # | 커밋 | Test ID | 구현 대상 | PR 브랜치 | 상태 |
-|---|------|---------|-----------|-----------|------|
-| 1 | `green(dom): D-LOC-01 find_blank_coords` | D-LOC-01 | `find_blank_coords` (FR-02) | `feat/dom/green-d-loc-01` | [x] |
-| 2 | `green(dom): D-MIS-01 find_not_exist_nums` | D-MIS-01 | `find_not_exist_nums` (FR-03) | `feat/dom/green-d-mis-01` | [ ] |
-| 3 | `green(dom): D-VAL-01~06 is_magic_square` | D-VAL-01~06 | `is_magic_square` (FR-04) | `feat/dom/green-d-val-01` | [ ] |
-| 4 | `green(dom): D-SOL-01~04 solution` | D-SOL-01~04 | `solution` (FR-05) | `feat/dom/green-d-sol-01` | [ ] |
+| # | 커밋 | Test ID | 구현 대상 | 상태 |
+|---|------|---------|-----------|------|
+| 1 | `green(dom): D-LOC-01 find_blank_coords` | D-LOC-01 | `find_blank_coords` (FR-02) | [x] |
+| 2 | `green(dom): D-MIS-01 find_not_exist_nums` | D-MIS-01 | `find_not_exist_nums` (FR-03) | [x] |
+| 3 | `green(dom): D-VAL-01~06 is_magic_square` | D-VAL-01~06 | `is_magic_square` (FR-04) | [ ] |
+| 4 | `green(dom): D-SOL-01~04 solution` | D-SOL-01~04 | `solution` (FR-05) | [ ] |
 
 - [x] Commit 1 — `find_blank_coords` — D-LOC-01 통과
-- [ ] Commit 2 — `find_not_exist_nums` — D-MIS-01 통과
+- [x] Commit 2 — `find_not_exist_nums` — D-MIS-01 통과
 - [ ] Commit 3 — `is_magic_square` — D-VAL-01~06 통과
 - [ ] Commit 4 — `solution` — D-SOL-01~04 통과
 - [ ] Track B RED 테스트 전부 통과 (`test_track_b_red` + `tests/entity/test_d_*`)
@@ -234,7 +235,7 @@ MagicSquare_xx/
 |------|-------------|-----------|
 | Track A RED/GREEN | `feat/bnd/red-bnd-*` | `develop` |
 | Track B RED | `feat/dom/red-dom-*` | `develop` |
-| Track B GREEN (4-commit) | `feat/dom/green-*` → `stabilize/green` | `develop` |
+| Track B GREEN (4-commit, 1 PR) | `feat/dom/green-d-loc-01` → `stabilize/green` | `develop` |
 | Integration | `feat/int/sc-*` | `develop` |
 | Refactoring | `refactor/bnd/*`, `refactor/dom/*`, `refactor/int/*` | `develop` |
 | Release | `develop` → `main` | Epic-001 완료 후 |
