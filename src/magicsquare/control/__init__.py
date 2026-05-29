@@ -1,1 +1,5 @@
-"""Control layer: use-case orchestration and Attempt sequencing (FR-05)."""
+"""Control layer: use-case orchestration."""
+
+from magicsquare.control.solve_partial_magic_square import SolvePartialMagicSquare
+
+__all__ = ["SolvePartialMagicSquare"]

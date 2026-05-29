@@ -1,19 +1,15 @@
-"""Domain layer: core rules, invariants, and pure logic components."""
+"""Entity layer: domain rules and invariants."""
 
-from magicsquare.entity.constants import (
-    BLANK_CELL_VALUE,
-    BLANK_COUNT,
-    GRID_SIZE,
-    MAGIC_CONSTANT_N4,
-    VALUE_MAX,
-    VALUE_MIN,
-)
+from magicsquare.entity.blank_locator import find_blank_coords
+from magicsquare.entity.exceptions import UnsolvableDomainError
+from magicsquare.entity.magic_validator import is_magic_square
+from magicsquare.entity.missing_finder import find_not_exist_nums
+from magicsquare.entity.solver import solution
 
 __all__ = [
-    "BLANK_CELL_VALUE",
-    "BLANK_COUNT",
-    "GRID_SIZE",
-    "MAGIC_CONSTANT_N4",
-    "VALUE_MAX",
-    "VALUE_MIN",
+    "UnsolvableDomainError",
+    "find_blank_coords",
+    "find_not_exist_nums",
+    "is_magic_square",
+    "solution",
 ]
