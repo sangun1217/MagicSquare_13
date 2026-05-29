@@ -117,7 +117,7 @@ MagicSquare_xx/
 |------|------|
 | 문제 정의 (STEP 1~5) | 완료 |
 | PRD·TDD 설계·Cursor Rules | 완료 |
-| Dual-Track TDD 구현 | **진행 중** (`feature/dual-track-tdd`) — Sprint 0 완료 |
+| Dual-Track TDD 구현 | **GREEN 진행 중** (`stabilize/green`) — Track B 4-commit |
 | 실행 방법 | `pip install -e ".[dev]"` 후 `pytest` |
 
 ---
@@ -156,16 +156,16 @@ MagicSquare_xx/
 
 #### Track B — Domain
 
-- [ ] `RED-DOM-BLK-001` — row-major 빈칸 2개 1-index 좌표 (FR-02)
-- [ ] `RED-DOM-MIS-001` — 누락 숫자 2개 탐색 (FR-03)
-- [ ] `RED-DOM-MIS-002` — 누락 숫자 오름차순 `(n1 < n2)`
-- [ ] `RED-DOM-VAL-001` — 유효 격자 `True` (FR-04)
-- [ ] `RED-DOM-VAL-002` — 행/열/대각선 합 34 검사
-- [ ] `RED-DOM-SOL-001` — small-first 성공 (FR-05)
-- [ ] `RED-DOM-SOL-002` — reverse 성공
-- [ ] `RED-DOM-SOL-003` — 두 조합 실패 → `ERR-SOL-001`
-- [ ] `RED-DOM-MUT-001` — 입력 행렬 불변 (BR-15)
-- [ ] `RED-DOM-DET-001` — 결정론 (NFR-03)
+- [x] `RED-DOM-BLK-001` — row-major 빈칸 2개 1-index 좌표 (FR-02) — `test_track_b_red` + `test_d_loc`
+- [x] `RED-DOM-MIS-001` — 누락 숫자 2개 탐색 (FR-03) — `test_track_b_red` + `test_d_mis`
+- [x] `RED-DOM-MIS-002` — 누락 숫자 오름차순 `(n1 < n2)` — D-MIS-01에 포함
+- [x] `RED-DOM-VAL-001` — 유효 격자 `True` (FR-04) — `test_track_b_red` + `test_d_val`
+- [x] `RED-DOM-VAL-002` — 행/열/대각선 합 34 검사 — D-VAL-02~06
+- [x] `RED-DOM-SOL-001` — small-first 성공 (FR-05) — D-SOL-01
+- [x] `RED-DOM-SOL-002` — reverse 성공 — D-SOL-02
+- [x] `RED-DOM-SOL-003` — 두 조합 실패 → `ERR-SOL-001` — D-SOL-03
+- [x] `RED-DOM-MUT-001` — 입력 행렬 불변 (BR-15) — `test_track_b_red::TestDomainInputImmutability`
+- [ ] `RED-DOM-DET-001` — 결정론 (NFR-03) — GREEN 후속
 
 #### Integration RED
 
@@ -180,13 +180,22 @@ MagicSquare_xx/
 - [ ] `ResultFormatter` — `int[6]` 출력 조립 (FR-05)
 - [ ] Track A RED 테스트 전부 통과
 
-#### Track B GREEN
+#### Track B GREEN (`stabilize/green` — 커밋 4개 · PR 4개)
 
-- [ ] `BlankFinder` — FR-02
-- [ ] `MissingNumberFinder` — FR-03
-- [ ] `MagicSquareValidator` — FR-04
-- [ ] `Solver` — FR-05 (small-first → reverse)
-- [ ] Track B RED 테스트 전부 통과
+브랜치 전략: `feat/dom/green-*` → PR → `stabilize/green` → (완료 후) `develop`
+
+| # | 커밋 | Test ID | 구현 대상 | PR 브랜치 | 상태 |
+|---|------|---------|-----------|-----------|------|
+| 1 | `green(dom): D-LOC-01 find_blank_coords` | D-LOC-01 | `find_blank_coords` (FR-02) | `feat/dom/green-d-loc-01` | [x] |
+| 2 | `green(dom): D-MIS-01 find_not_exist_nums` | D-MIS-01 | `find_not_exist_nums` (FR-03) | `feat/dom/green-d-mis-01` | [ ] |
+| 3 | `green(dom): D-VAL-01~06 is_magic_square` | D-VAL-01~06 | `is_magic_square` (FR-04) | `feat/dom/green-d-val-01` | [ ] |
+| 4 | `green(dom): D-SOL-01~04 solution` | D-SOL-01~04 | `solution` (FR-05) | `feat/dom/green-d-sol-01` | [ ] |
+
+- [x] Commit 1 — `find_blank_coords` — D-LOC-01 통과
+- [ ] Commit 2 — `find_not_exist_nums` — D-MIS-01 통과
+- [ ] Commit 3 — `is_magic_square` — D-VAL-01~06 통과
+- [ ] Commit 4 — `solution` — D-SOL-01~04 통과
+- [ ] Track B RED 테스트 전부 통과 (`test_track_b_red` + `tests/entity/test_d_*`)
 
 #### Integration GREEN
 
@@ -224,7 +233,8 @@ MagicSquare_xx/
 | 단계 | 브랜치 패턴 | 병합 대상 |
 |------|-------------|-----------|
 | Track A RED/GREEN | `feat/bnd/red-bnd-*` | `develop` |
-| Track B RED/GREEN | `feat/dom/red-dom-*` | `develop` |
+| Track B RED | `feat/dom/red-dom-*` | `develop` |
+| Track B GREEN (4-commit) | `feat/dom/green-*` → `stabilize/green` | `develop` |
 | Integration | `feat/int/sc-*` | `develop` |
 | Refactoring | `refactor/bnd/*`, `refactor/dom/*`, `refactor/int/*` | `develop` |
 | Release | `develop` → `main` | Epic-001 완료 후 |
