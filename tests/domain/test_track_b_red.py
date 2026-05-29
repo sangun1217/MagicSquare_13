@@ -12,7 +12,6 @@ from magicsquare.entity.magic_validator import is_magic_square
 from magicsquare.entity.missing_finder import find_not_exist_nums
 from magicsquare.entity.solver import solution
 from tests.fixtures.golden_grids import (
-    D_SOL_01_EXPECTED,
     G0,
     G1,
     G2,
@@ -96,10 +95,10 @@ class TestDVAL06MagicSquareFalseZero:
 
 
 class TestDSOL01SmallFirstSuccess:
-    """D-SOL-01: G1 Step A small-first → [2,2,7,3,3,10]."""
+    """D-SOL-01: G1_SF Step A small-first → [1,2,3,4,3,14]."""
 
     def test_solution_step_a_small_first_success_g1(self) -> None:
-        assert solution(G1) == D_SOL_01_EXPECTED
+        assert solution(G1_SF) == G1_SF_EXPECTED
 
 
 class TestDSOL02ReverseSuccess:
