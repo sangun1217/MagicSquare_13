@@ -142,6 +142,8 @@ MagicSquare_xx/
 
 ### Phase 1 — Dual-Track RED (테스트만, 실패 확인)
 
+- [x] **결함 목록 연결** — [docs/defect_list.md](docs/defect_list.md) (AC-FR-01-01 RED: 20 failed / 24 passed, 2026-05-29)
+
 #### Track A — Boundary
 
 - [ ] `RED-BND-001` — 비 4×4 입력 → `ERR-VAL-001`, Domain 미호출
@@ -168,7 +170,7 @@ MagicSquare_xx/
 #### Integration RED
 
 - [ ] `SC-DOM-SOL-001` — Control 오케스트레이션 end-to-end
-- [ ] `pytest` 실행 → **의도한 실패** 로그 확보 (RED 증거)
+- [x] `pytest` 실행 → **의도한 실패** 로그 확보 (RED 증거) — [defect_list.md](docs/defect_list.md) DEF-001~002
 
 ### Phase 2 — GREEN (최소 구현, Track별 PR merge)
 
