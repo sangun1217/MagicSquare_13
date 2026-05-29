@@ -157,9 +157,9 @@ TD_DUPLICATE: Final[Grid] = [
     [4, 15, 14, 0],
 ]
 
-# G3: FR-01 valid; both placement attempts fail (numeric TBD — RED placeholder).
+# G3: FR-01 valid; both placement attempts fail (numeric lock at GREEN Commit 4).
 G3: Final[Grid] = [
-    [16, 3, 0, 13],
+    [2, 3, 0, 13],
     [5, 10, 11, 8],
     [9, 6, 0, 12],
     [4, 15, 14, 1],
