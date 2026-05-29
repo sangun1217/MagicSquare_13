@@ -29,6 +29,7 @@ markers = [
     "boundary: Track A Boundary / UI Contract tests",
     "domain: Track B Domain / Logic tests",
     "integration: Cross-layer integration tests",
+    "golden_master: Approval / Golden Master regression tests",
 ]
 
 [tool.coverage.run]
