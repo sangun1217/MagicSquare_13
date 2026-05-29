@@ -189,12 +189,12 @@ MagicSquare_xx/
 |---|------|---------|-----------|------|
 | 1 | `green(dom): D-LOC-01 find_blank_coords` | D-LOC-01 | `find_blank_coords` (FR-02) | [x] |
 | 2 | `green(dom): D-MIS-01 find_not_exist_nums` | D-MIS-01 | `find_not_exist_nums` (FR-03) | [x] |
-| 3 | `green(dom): D-VAL-01~06 is_magic_square` | D-VAL-01~06 | `is_magic_square` (FR-04) | [ ] |
+| 3 | `green(dom): D-VAL-01~06 is_magic_square` | D-VAL-01~06 | `is_magic_square` (FR-04) | [x] |
 | 4 | `green(dom): D-SOL-01~04 solution` | D-SOL-01~04 | `solution` (FR-05) | [ ] |
 
 - [x] Commit 1 — `find_blank_coords` — D-LOC-01 통과
 - [x] Commit 2 — `find_not_exist_nums` — D-MIS-01 통과
-- [ ] Commit 3 — `is_magic_square` — D-VAL-01~06 통과
+- [x] Commit 3 — `is_magic_square` — D-VAL-01~06 통과
 - [ ] Commit 4 — `solution` — D-SOL-01~04 통과
 - [ ] Track B RED 테스트 전부 통과 (`test_track_b_red` + `tests/entity/test_d_*`)
 
