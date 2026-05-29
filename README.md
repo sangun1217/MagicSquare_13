@@ -77,11 +77,12 @@
 ```
 MagicSquare_xx/
 ├── README.md                 ← 이 파일 (프로젝트 개요)
-├── Report/
-│   ├── README.md             ← 보고서 폴더 안내
-│   └── 01-problem-definition-report.md   ← STEP 1~5 통합 보고서
-└── Prompting/
-    └── 01-problem-definition-report_prompt.md   ← 문제 정의 대화 기록(프롬프트)
+├── docs/
+│   └── PRD_MagicSquare.md    ← 구현 전 PRD (Dual-Track TDD 기준)
+├── Report/                   ← 문제 정의·TDD 설계·세션 보고서
+├── Prompting/                ← 프롬프트·대화 기록
+├── .cursor/rules/            ← TDD·ECB·코드 스타일 규칙
+└── src/, tests/              ← (예정) ECB 구현·테스트
 ```
 
 ---
@@ -90,10 +91,12 @@ MagicSquare_xx/
 
 | 문서 | 설명 |
 |------|------|
+| [docs/PRD_MagicSquare.md](docs/PRD_MagicSquare.md) | 구현 전 PRD — FR/BR, Dual-Track TDD, Traceability |
 | [Report/01-problem-definition-report.md](Report/01-problem-definition-report.md) | STEP 1~5 통합 보고서 (관찰, Why, Invariant, 사고 능력) |
-| [Report/README.md](Report/README.md) | 보고서 폴더 안내 |
+| [Report/02-tdd-design-report.md](Report/02-tdd-design-report.md) | TDD 설계 — 계약, TC 카탈로그, R-G-R 순서 |
+| [Report/08-magicsquare-tdd-readme-todo-draft_Report.md](Report/08-magicsquare-tdd-readme-todo-draft_Report.md) | TDD 추적 보드 (23 Task, 15 Scenario) |
 
-**읽는 순서:** `Report/01-problem-definition-report.md`를 STEP 1부터 순서대로 읽으면 전체 맥락을 따라갈 수 있습니다.
+**읽는 순서:** `01` → `02` → `PRD` → 본 README 「해야 할 목록」
 
 ---
 
@@ -113,8 +116,118 @@ MagicSquare_xx/
 | 항목 | 상태 |
 |------|------|
 | 문제 정의 (STEP 1~5) | 완료 |
-| 구현·테스트 코드 | 미착수 |
-| 실행 방법 | 해당 없음 (코드 없음) |
+| PRD·TDD 설계·Cursor Rules | 완료 |
+| Dual-Track TDD 구현 | **진행 중** (`feature/dual-track-tdd`) — Sprint 0 완료 |
+| 실행 방법 | `pip install -e ".[dev]"` 후 `pytest` |
+
+---
+
+## Dual-Track TDD — 해야 할 목록
+
+개발 방법론: **Dual-Track UI + Logic TDD → GREEN → Dual-Track Refactoring**
+
+- **Track A (Boundary / UI Contract)**: 입력 검증, 출력 계약, Domain 미호출
+- **Track B (Domain / Logic)**: BlankFinder, MissingNumberFinder, Validator, Solver
+
+참고: [docs/PRD_MagicSquare.md](docs/PRD_MagicSquare.md) §15, [Report/08-magicsquare-tdd-readme-todo-draft_Report.md](Report/08-magicsquare-tdd-readme-todo-draft_Report.md)
+
+### Sprint 0 — 프로젝트 골격
+
+- [x] `pyproject.toml` 생성 (pytest, pytest-cov, ruff/black)
+- [x] ECB 디렉터리 스켈레톤 (`src/boundary/`, `src/control/`, `src/entity/`)
+- [x] 테스트 디렉터리 분리 (`tests/boundary/`, `tests/domain/`, `tests/integration/`)
+- [x] Golden fixture 상수 정의 (PRD §16.4, Report/02 부록 B)
+- [x] `TD-SUCCESS-REV-001` 수치 확정 (PRD DN-04) — blanks `(2,2)/(3,3)` 1-index, expected `[2,2,10,3,3,7]`
+- [x] `ResultFormatter` Layer 결론 (PRD DN-05) — **Boundary** (format-only assembly)
+
+### Phase 1 — Dual-Track RED (테스트만, 실패 확인)
+
+- [x] **결함 목록 연결** — [docs/defect_list.md](docs/defect_list.md) (AC-FR-01-01 RED: 20 failed / 24 passed, 2026-05-29)
+
+#### Track A — Boundary
+
+- [ ] `RED-BND-001` — 비 4×4 입력 → `ERR-VAL-001`, Domain 미호출
+- [ ] `RED-BND-002` — 빈칸 개수 ≠ 2 → `ERR-VAL-002`, Domain 미호출
+- [ ] `RED-BND-003` — 값 범위 위반 → `ERR-VAL-003`, Domain 미호출
+- [ ] `RED-BND-004` — 중복 값 → `ERR-VAL-004`, Domain 미호출
+- [ ] `RED-BND-005` — 출력 좌표 1-index
+- [ ] `RED-BND-006` — 검증 실패 시 Domain 0회 호출 (mock/spy)
+- [ ] `RED-BND-007` — 반환 배열 길이 6 (`int[6]`)
+
+#### Track B — Domain
+
+- [ ] `RED-DOM-BLK-001` — row-major 빈칸 2개 1-index 좌표 (FR-02)
+- [ ] `RED-DOM-MIS-001` — 누락 숫자 2개 탐색 (FR-03)
+- [ ] `RED-DOM-MIS-002` — 누락 숫자 오름차순 `(n1 < n2)`
+- [ ] `RED-DOM-VAL-001` — 유효 격자 `True` (FR-04)
+- [ ] `RED-DOM-VAL-002` — 행/열/대각선 합 34 검사
+- [ ] `RED-DOM-SOL-001` — small-first 성공 (FR-05)
+- [ ] `RED-DOM-SOL-002` — reverse 성공
+- [ ] `RED-DOM-SOL-003` — 두 조합 실패 → `ERR-SOL-001`
+- [ ] `RED-DOM-MUT-001` — 입력 행렬 불변 (BR-15)
+- [ ] `RED-DOM-DET-001` — 결정론 (NFR-03)
+
+#### Integration RED
+
+- [ ] `SC-DOM-SOL-001` — Control 오케스트레이션 end-to-end
+- [x] `pytest` 실행 → **의도한 실패** 로그 확보 (RED 증거) — [defect_list.md](docs/defect_list.md) DEF-001~002
+
+### Phase 2 — GREEN (최소 구현, Track별 PR merge)
+
+#### Track A GREEN
+
+- [ ] `BoundaryValidator` — FR-01 입력 검증 최소 구현
+- [ ] `ResultFormatter` — `int[6]` 출력 조립 (FR-05)
+- [ ] Track A RED 테스트 전부 통과
+
+#### Track B GREEN
+
+- [ ] `BlankFinder` — FR-02
+- [ ] `MissingNumberFinder` — FR-03
+- [ ] `MagicSquareValidator` — FR-04
+- [ ] `Solver` — FR-05 (small-first → reverse)
+- [ ] Track B RED 테스트 전부 통과
+
+#### Integration GREEN
+
+- [ ] Control layer — Attempt 순서 오케스트레이션
+- [ ] 전체 Scenario 15건 Tracking Board 통과
+
+### Phase 3 — Dual-Track Refactoring
+
+#### Track A Refactor
+
+- [ ] `refactor/bnd/fr-01` — BoundaryValidator 책임 분리
+- [ ] named constants 추출 (`GRID_SIZE`, `BLANK_COUNT`, `VALUE_MIN`, `VALUE_MAX`)
+
+#### Track B Refactor
+
+- [ ] `refactor/dom/fr-04` — `LineSumChecker`, `LineEnumerator` 추출
+- [ ] `MAGIC_CONSTANT_N4 = 34` 중앙화 (NFR-07)
+
+#### Integration Refactor
+
+- [ ] ECB import 방향 정리 (NFR-06)
+- [ ] Golden fixture 파일 분리 (TC-G-01 ~ TC-G-04)
+- [ ] 전체 suite GREEN + coverage ≥ 80% (layer별 95/85 — PRD NFR-01/02)
+
+### Quality Gates (모든 PR)
+
+- [ ] RED: production 코드 없이 테스트 실패 확인
+- [ ] GREEN: assert 약화·테스트 삭제 없음
+- [ ] REFACTOR: 동작 변경 없이 구조 개선
+- [ ] Track A/B 테스트 파일 분리 유지
+- [ ] Domain 전부 구현 후 Boundary 붙이기 **금지**
+
+### Git 브랜치 규칙 (요약)
+
+| 단계 | 브랜치 패턴 | 병합 대상 |
+|------|-------------|-----------|
+| Track A RED/GREEN | `feat/bnd/red-bnd-*` | `develop` |
+| Track B RED/GREEN | `feat/dom/red-dom-*` | `develop` |
+| Integration | `feat/int/sc-*` | `develop` |
+| Refactoring | `refactor/bnd/*`, `refactor/dom/*`, `refactor/int/*` | `develop` |
+| Release | `develop` → `main` | Epic-001 완료 후 |
 
 ---
 
